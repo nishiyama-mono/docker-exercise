@@ -1,0 +1,31 @@
+version: '3'
+services:
+  app:
+    container_name: "${COMPOSE_PROJECT_NAME}-app"
+    build: .
+    volumes:
+      - .:/srv/www
+      - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./docker/php-fpm.conf:/etc/php7/php-fpm.conf
+    depends_on:
+      - mysql
+    links:
+      - mysql
+    working_dir: /srv/www
+    ports:
+      - "80:80"
+    command: docker/entrypoint-app.sh
+  mysql:
+    container_name: "${COMPOSE_PROJECT_NAME}-mysql"
+    image: mysql:5.7
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./docker/my.cnf:/etc/mysql/conf.d/my.cnf
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+volumes:
+  mysql-data:
+    external:
+      name: "${DOCKER_MYSQL_VOLUME_NAME}"
