@@ -105,6 +105,8 @@ RUN apk --update add \
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN composer global require hirak/prestissimo
 
+### MySQL Client
+RUN apk --update add mysql-client
 
 ### nginx
 RUN apk --update add nginx
