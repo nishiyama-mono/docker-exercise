@@ -12,7 +12,7 @@ cp -p .env.example .env
 
 ### Dockerイメージのビルド
 ```
-docker-compose --build
+docker-compose build
 ```
 
 ### コンテナの起動
